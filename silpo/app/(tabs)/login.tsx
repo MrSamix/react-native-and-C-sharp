@@ -1,7 +1,11 @@
+import { ThemedText } from '@/components/themed-text';
+import { ThemedTextInput } from '@/components/themed-textinput';
+import { ThemedView } from '@/components/themed-view';
 import React, { useState } from 'react'
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, useColorScheme } from 'react-native';
 
 const LoginPage = () => {
+    const colorScheme = useColorScheme();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -10,11 +14,11 @@ const LoginPage = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
+        <ThemedView style={styles.container}>
+            <ThemedText style={styles.title}>Login</ThemedText>
 
-            <Text style={styles.label}>E-mail</Text>
-            <TextInput
+            <ThemedText style={styles.label}>E-mail</ThemedText>
+            <ThemedTextInput
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -24,8 +28,8 @@ const LoginPage = () => {
                 style={styles.input}
             />
 
-            <Text style={styles.label}>Password</Text>
-            <TextInput
+            <ThemedText style={styles.label}>Password</ThemedText>
+            <ThemedTextInput
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
@@ -33,10 +37,10 @@ const LoginPage = () => {
                 style={styles.input}
             />
 
-            <Pressable onPress={onLogin} style={styles.button}>
-                <Text style={styles.buttonText}>Login</Text>
+            <Pressable onPress={onLogin} style={colorScheme === 'dark' ? styles.buttonDark : styles.button}>
+                <ThemedText style={styles.buttonText}>Login</ThemedText>
             </Pressable>
-        </View>
+        </ThemedView>
     )
 }
 
@@ -73,9 +77,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#111',
     },
+    buttonDark: {
+        marginTop: 8,
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        borderColor: '#eee',
+        borderWidth: 1,
+    },
     buttonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: '600',
-    },
+    }
 })
