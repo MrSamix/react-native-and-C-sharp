@@ -1,4 +1,4 @@
-using Infrastructure;
+п»їusing Infrastructure;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,17 +15,17 @@ builder.Services.AddOpenApi(options =>
     options.AddDocumentTransformer((document, context, cancellationToken) =>
     {
         document.Servers = [
-                new OpenApiServer
-            {
-                Url = builder.Configuration["ServerRunUrl"]
-            }
+            new OpenApiServer
+                {
+                    Url = builder.Configuration["ServerRunUrl"]
+                }
             ];
 
         return Task.CompletedTask;
     });
 });
 
-// Метод, що будує залежності у infrstructure рівні
+// РјРµС‚РѕРґ, С‰Рѕ Р±СѓРґСѓС” Р·Р°Р»РµР¶РЅРѕСЃС‚С– Сѓ infrstructure СЂС–РІРЅС–
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();

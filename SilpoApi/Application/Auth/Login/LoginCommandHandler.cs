@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Identity;
+﻿using Application.Interfaces;
+using Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,7 +8,7 @@ namespace Application.Auth.Login;
 /// <summary>
 /// Обробник команди для входу користувача в систему.
 /// </summary>
-public class LoginCommandHandler(UserManager<UserEntity> userManager) : IRequestHandler<LoginCommand, LoginResponseDto>
+public class LoginCommandHandler(UserManager<UserEntity> userManager, IJwtTokenService jwtTokenService) : IRequestHandler<LoginCommand, LoginResponseDto>
 {
     public async Task<LoginResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
@@ -23,9 +24,15 @@ public class LoginCommandHandler(UserManager<UserEntity> userManager) : IRequest
             throw new Exception("Invalid email or password.");
         }
 
+        var accessToken = await jwtTokenService.CreateTokenAsync(user);
+
+        var refreshToken = await jwtTokenService.GenerateRefreshTokenAsync();
+
+
         return new LoginResponseDto
         {
-            Token = "Salo"
+            Token = accessToken,
+            RefreshToken = refreshToken
         };
     }
 }

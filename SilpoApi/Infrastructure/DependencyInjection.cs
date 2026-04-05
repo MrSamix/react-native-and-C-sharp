@@ -18,6 +18,7 @@ public static class DependencyInjection
     {
         //services
         //services.AddScoped<ISeederService, SeederService>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
 
         // DB
         var connectionString = configuration.GetConnectionString("Db");
