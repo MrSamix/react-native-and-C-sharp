@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Application/Application.csproj" Id="ea7fbc7c-9cfc-4082-91a3-bf309eef25d6" />
+  <Project Path="Domain/Domain.csproj" Id="3edb575f-32ae-4888-86f6-322d4061c36a" />
+  <Project Path="Infrastructure/Infrastructure.csproj" Id="f42fe1af-cc82-4c16-b347-2b6a947352f7" />
+  <Project Path="SilpoApi/SilpoApi.csproj" />
+</Solution>
