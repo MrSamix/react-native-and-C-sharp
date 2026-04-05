@@ -12,24 +12,24 @@ public class LoginCommandHandler(UserManager<UserEntity> userManager, IJwtTokenS
 {
     public async Task<LoginResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await userManager.FindByEmailAsync(request.Email);
-        if (user == null)
+        var user = await userManager.FindByEmailAsync(request.Email); // шукаємо користувача по e-mail
+        if (user == null) // якщо користувача не знайдено - повертаємо помилку
         {
             throw new Exception("Invalid email or password.");
         }
 
-        var passwordValid = await userManager.CheckPasswordAsync(user, request.Password);
-        if (passwordValid == false)
+        var passwordValid = await userManager.CheckPasswordAsync(user, request.Password); // перевіряємо, чи пароль валідний
+        if (passwordValid == false) // якщо пароль неправильний - повертаємо помилку
         {
             throw new Exception("Invalid email or password.");
         }
 
-        var accessToken = await jwtTokenService.CreateTokenAsync(user);
+        var accessToken = await jwtTokenService.CreateTokenAsync(user); // створюємо access токен
 
-        var refreshToken = await jwtTokenService.GenerateRefreshTokenAsync();
+        var refreshToken = await jwtTokenService.GenerateRefreshTokenAsync(); // генеруємо refresh токен
 
 
-        return new LoginResponseDto
+        return new LoginResponseDto // повертаємо токени користувачу
         {
             Token = accessToken,
             RefreshToken = refreshToken

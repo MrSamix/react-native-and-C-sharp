@@ -14,16 +14,17 @@ public class AuthController(IMediator mediator) : ControllerBase
     {
 		try
 		{
-			var result = await mediator.Send(new LoginCommand
+            // відправляємо команду до MediatR, яка обробить логіку аутентифікації
+            var result = await mediator.Send(new LoginCommand
 			{
 				Email = request.Email,
 				Password = request.Password
 			});
-			return Ok(result);
-		}
+			return Ok(result); // повертаємо результат у вигляді JSON
+        }
 		catch (Exception ex)
 		{
-			return BadRequest(ex.Message);
-		}
+			return BadRequest(ex.Message); // повертаємо код 400 + помилку, якщо щось пішло не так
+        }
     }
 }
