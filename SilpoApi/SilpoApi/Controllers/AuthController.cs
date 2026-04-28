@@ -34,7 +34,7 @@ public class AuthController(IMediator mediator) : Controller
     {
         try
         {
-            // відправляємо команду до MediatR, яка обробить логіку аутентифікації
+            // відправляємо команду до MediatR, яка обробить логіку реєстрації
             await mediator.Send(request);
             return Ok(); // повертаємо результат у вигляді JSON
         }

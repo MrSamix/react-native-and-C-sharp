@@ -7,6 +7,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Provider } from 'react-redux';
 
 import { store } from '../store';
+import "@/global.css";
 
 export const unstable_settings = {
   anchor: '(tabs)',

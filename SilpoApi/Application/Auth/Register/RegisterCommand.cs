@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.Identity;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace Application.Auth.Register;
@@ -17,7 +16,6 @@ public class RegisterCommandHandler(UserManager<UserEntity> userManager) : IRequ
 {
     public async Task Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
-        // написати логіку ств. користувача в бд
         UserEntity user = new UserEntity()
         {
             Email = request.Email,
