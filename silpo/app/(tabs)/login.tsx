@@ -1,49 +1,69 @@
 import { ThemedText } from '@/components/themed-text';
-import { ThemedTextInput } from '@/components/themed-textinput';
 import { ThemedView } from '@/components/themed-view';
-import React, { useState } from 'react'
-import { Alert, Pressable, useColorScheme, StyleSheet } from 'react-native';
+import { EmailInput } from '@/constants/form/EmailInput';
+import { PasswordInput } from '@/constants/form/PasswordInput';
+import { useLoginMutation } from '@/services/apiAccount';
+import { IAccountLogin } from '@/types/account/IAccountLogin';
+import React from 'react'
+import { useForm } from 'react-hook-form';
+import { useColorScheme, StyleSheet, View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 
 const LoginPage = () => {
-    const colorScheme = useColorScheme();
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const { control, handleSubmit, formState: { errors } } = useForm<IAccountLogin>({
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+        mode: 'onBlur',
+    });
 
-    const onLogin = () => {
-        Alert.alert('Login', `E-mail: ${email}\nPassword: ${password}`)
-    }
+    const colorScheme = useColorScheme();
+    const [login, {isLoading, error}] = useLoginMutation();
+
+
+    const onSubmit = async (data: IAccountLogin) => {
+        try {
+            console.log('Form data:', data);
+            // send to API
+        }
+        catch (ex) {
+            console.log("Error occured", ex);
+        }
+    };
 
     return (
-        <ThemedView className="flex-1 p-4 mt-[120px] gap-2.5">
-            <ThemedText className="text-2xl font-semibold mb-3 text-center">Login</ThemedText>
+        <KeyboardAvoidingView
+            className='flex-1'
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ThemedView className="flex-1 p-4 mt-[120px] gap-2.5">
+                    <ThemedText className="text-2xl font-semibold mb-3 text-center">Login</ThemedText>
 
-            <ThemedText className="text-sm font-medium">E-mail</ThemedText>
-            <ThemedTextInput
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType='emailAddress'
-                placeholder="Enter e-mail"
-                className="border border-[#ccc] rounded-lg px-3 py-2.5"
-            />
+                    {error && (
+                        <View className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-xl p-4">
+                            <Text className="text-red-700 dark:text-red-200 text-sm font-medium">
+                                Не вірно вказано дані
+                            </Text>
+                        </View>
+                    )}
 
-            <ThemedText className="text-sm font-medium">Password</ThemedText>
-            <ThemedTextInput
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                placeholder="Enter password"
-                className="border border-[#ccc] rounded-lg px-3 py-2.5"
-            />
+                    {/* Email Field */}
+                    <EmailInput control={control} error={errors.email} isLoading={isLoading} label="E-mail" />
 
-            <Pressable
-                onPress={onLogin}
-                className={`mt-2 py-3 rounded-lg items-center ${colorScheme === 'dark' ? 'border border-[#eee]' : 'bg-[#111]'}`}
-            >
-                <ThemedText style={styles.buttonText}>Login</ThemedText>
-            </Pressable>
-        </ThemedView>
+                    {/* Password Field */}
+                    <PasswordInput control={control} error={errors.password} isLoading={isLoading} label="Password" />
+
+                    <TouchableOpacity
+                        onPress={handleSubmit(onSubmit)}
+                        className={`mt-2 py-3 rounded-lg items-center ${colorScheme === 'dark' ? 'border border-[#eee]' : 'bg-[#111]'}`}
+                    >
+                        <ThemedText style={styles.buttonText}>Login</ThemedText>
+                    </TouchableOpacity>
+                </ThemedView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+        
     )
 }
 
