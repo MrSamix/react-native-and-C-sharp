@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { EmailInput } from '@/constants/form/EmailInput';
-import { PasswordInput } from '@/constants/form/PasswordInput';
+import { EmailInput } from '@/components/form/login/EmailInput';
+import { PasswordInput } from '@/components/form/login/PasswordInput';
 import { useLoginMutation } from '@/services/apiAccount';
 import { IAccountLogin } from '@/types/account/IAccountLogin';
 import React from 'react'
@@ -24,7 +24,8 @@ const LoginPage = () => {
     const onSubmit = async (data: IAccountLogin) => {
         try {
             console.log('Form data:', data);
-            // send to API
+            const res = await login(data).unwrap();
+            console.log('Login response:', res);
         }
         catch (ex) {
             console.log("Error occured", ex);
@@ -43,7 +44,7 @@ const LoginPage = () => {
                     {error && (
                         <View className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-xl p-4">
                             <Text className="text-red-700 dark:text-red-200 text-sm font-medium">
-                                Не вірно вказано дані
+                                {error.data ? error.data : 'Не вірно вказано дані'}
                             </Text>
                         </View>
                     )}
@@ -73,6 +74,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: '600'
     }
 });

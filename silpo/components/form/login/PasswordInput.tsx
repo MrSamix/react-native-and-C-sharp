@@ -4,6 +4,7 @@ import { Control, Controller, FieldError, FieldValues } from "react-hook-form";
 import { Eye, EyeOff } from 'lucide-react-native';
 import { IAccountLogin } from "@/types/account/IAccountLogin";
 import { ThemedTextInput } from "@/components/themed-textinput";
+import { ThemedText } from "@/components/themed-text";
 
 interface Props<T extends FieldValues> {
     control: Control<T> | undefined;
@@ -16,9 +17,9 @@ export const PasswordInput: React.FC<Props<IAccountLogin>> = ({ control, error, 
     const [showPassword, setShowPassword] = useState(false);
     return (
         <View className="gap-2">
-            <Text className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">
+            <ThemedText className="text-sm font-medium text-slate-700 dark:text-slate-300 ml-1">
                 {label}
-            </Text>
+            </ThemedText>
             <Controller
                 control={control}
                 name="password"

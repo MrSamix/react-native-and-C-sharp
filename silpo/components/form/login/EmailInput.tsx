@@ -13,10 +13,10 @@ interface Props<T extends FieldValues> {
 }
 
 //@ts-ignore
-export const EmailInput: React.FC<Props<ILogin>> = ({ control, error, isLoading, label }) => {
+export const EmailInput: React.FC<Props<IAccountLogin>> = ({ control, error, isLoading, label }) => {
     return (
         <View className="gap-2">
-            <ThemedText className="text-sm font-medium">{label}</ThemedText>
+            <ThemedText className="text-sm font-medium ml-1">{label}</ThemedText>
             <Controller
                 control={control}
                 name="email"
