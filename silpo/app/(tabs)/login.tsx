@@ -4,9 +4,11 @@ import { EmailInput } from '@/components/form/login/EmailInput';
 import { PasswordInput } from '@/components/form/login/PasswordInput';
 import { useLoginMutation } from '@/services/apiAccount';
 import { IAccountLogin } from '@/types/account/IAccountLogin';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useColorScheme, StyleSheet, View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginPage = () => {
     const { control, handleSubmit, formState: { errors } } = useForm<IAccountLogin>({
@@ -17,6 +19,17 @@ const LoginPage = () => {
         mode: 'onBlur',
     });
 
+
+    useEffect(() => {
+         async function checkLogin() {
+             if (await AsyncStorage.getItem('accessToken'))
+             {
+                 router.replace("/profile")
+             }
+         }
+         checkLogin();
+     }, [])
+
     const colorScheme = useColorScheme();
     const [login, {isLoading, error}] = useLoginMutation();
 
@@ -25,7 +38,10 @@ const LoginPage = () => {
         try {
             console.log('Form data:', data);
             const res = await login(data).unwrap();
+            await AsyncStorage.setItem('accessToken', res.token)
             console.log('Login response:', res);
+
+            router.replace("/profile");
         }
         catch (ex) {
             console.log("Error occured", ex);
@@ -44,7 +60,7 @@ const LoginPage = () => {
                     {error && (
                         <View className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-xl p-4">
                             <Text className="text-red-700 dark:text-red-200 text-sm font-medium">
-                                {error.data ? error.data : 'Не вірно вказано дані'}
+                                {(error as any).data ? (error as any).data : 'Не вірно вказано дані'}
                             </Text>
                         </View>
                     )}

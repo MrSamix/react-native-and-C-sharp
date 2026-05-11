@@ -9,12 +9,12 @@ import { Link } from 'expo-router';
 import { useEffect } from 'react';
 
 export default function HomeScreen() {
-  useEffect(() => {
-    fetch("https://silpo.itstep.click/api/Auth/GetUsers")
-      .then(res => res.json())
-      .then(data => console.log("Result", data))
-      .catch(err => console.log("Error fetch", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://silpo.itstep.click/api/Auth/GetUsers")
+  //     .then(res => res.json())
+  //     .then(data => console.log("Result", data))
+  //     .catch(err => console.log("Error fetch", err));
+  // }, []);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}

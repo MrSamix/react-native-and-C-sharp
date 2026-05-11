@@ -1,2 +1,1 @@
-export const BASE_URL = "https://silpo.itstep.click";
-
+export const BASE_URL = process.env.EXPO_PUBLIC_API_URL || "https://apipanchuk.itstep.click";
